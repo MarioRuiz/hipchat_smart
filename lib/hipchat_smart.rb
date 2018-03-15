@@ -12,6 +12,11 @@ if ARGV.size==0
   ON_MASTER_ROOM = true
   ADMIN_USERS = MASTER_USERS
   RULES_FILE = "#{$0.gsub('.rb', '_rules.rb')}" unless defined?(RULES_FILE)
+  unless File.exist?(RULES_FILE)
+	require 'fileutils'
+	default_rules=(__FILE__).gsub(".rb", "_rules.rb")
+	FileUtils.copy_file(default_rules, RULES_FILE)
+  end
   STATUS_INIT = :on
 else
   ON_MASTER_ROOM = false
