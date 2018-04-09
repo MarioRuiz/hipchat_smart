@@ -152,16 +152,18 @@ class Bot
       roster.accept_subscription(pres.from)
     end
 
-    client.add_message_callback do |m|
-      unless m.body.to_s==""
-        jid_user=m.from.node+"@"+m.from.domain
-        user=roster[jid_user]
-        unless user.nil?
-          res = process_first("", user.attributes["name"], m.body, jid_user)
-          next if res.to_s=="next"
-        end
-      end
-    end
+    if ON_MASTER_ROOM
+		client.add_message_callback do |m|
+		  unless m.body.to_s==""
+			jid_user=m.from.node+"@"+m.from.domain
+			user=roster[jid_user]
+			unless user.nil?
+			  res = process_first("", user.attributes["name"], m.body, jid_user)
+			  next if res.to_s=="next"
+			end
+		  end
+		end
+	end
 
     @logger.info "Bot listening"
     self
