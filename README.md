@@ -101,6 +101,8 @@ def rules(from, command, processed)
 end
 
 ```
+### How to access the bot
+You can access the bot directly on the MASTER ROOM, on a secondary room where the bot is running and directly by opening a private chat with the bot, in this case the conversation will be just between you and the bot.
 
 ### Available commands even when the bot is not listening to you
 Some of the commands are available always even when the bot is not listening to you but it is running

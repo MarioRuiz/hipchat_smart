@@ -5,13 +5,13 @@ else
   @testing = true
   @questions = Hash.new()
 
-  def respond(message)
+  def respond(message, jid_user)
     puts message
   end
 
   #context: previous message
   #to: user that should answer
-  def ask(question, context, to)
+  def ask(question, context, to, jid_user)
     puts "Bot: #{question}"
     @questions[to]=context
   end
@@ -28,7 +28,7 @@ end
 # help:       @FIRST_NAME_BOT THE_COMMAND
 # help:       FIRST_NAME_BOT THE_COMMAND
 # help:
-def rules(from, command, processed)
+def rules(from, command, processed, jid_user)
   if @testing
     puts "#{from}: #{command}"
     if @questions.keys.include?(from)
@@ -44,32 +44,32 @@ def rules(from, command, processed)
     # help:     repeats SOMETHING
     # help:
     when /echo\s(.+)/i
-      respond $1
+      respond $1, jid_user
 
     # help: go to sleep
     # help:   it will sleep the bot for 10 seconds
     # help:
     when /go\sto\ssleep/i
       unless @questions.keys.include?(from)
-        ask("do you want me to take a siesta?", command, from)
+        ask("do you want me to take a siesta?", command, from, jid_user)
       else
         case @questions[from]
           when /yes/i, /yep/i, /sure/i
-            respond "zZzzzzzZZZZZZzzzzzzz!"
-            respond "I'll be sleeping for 10 secs... just for you"
+            respond "zZzzzzzZZZZZZzzzzzzz!", jid_user
+            respond "I'll be sleeping for 10 secs... just for you", jid_user
             sleep 10
           when /no/i, /nope/i, /cancel/i
             @questions.delete(from)
-            respond "Thanks, I'm happy to be awake"
+            respond "Thanks, I'm happy to be awake", jid_user
           else
-            respond "I don't understand"
-            ask("are you sure do you want me to sleep? (yes or no)", "go to sleep", from)
+            respond "I don't understand", jid_user
+            ask("are you sure do you want me to sleep? (yes or no)", "go to sleep", from, jid_user)
         end
       end
     else
       unless processed
         resp = %w{ what huh sorry }.sample
-        respond "#{firstname}: #{resp}?"
+        respond "#{firstname}: #{resp}?", jid_user
       end
   end
 end
