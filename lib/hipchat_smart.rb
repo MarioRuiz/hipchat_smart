@@ -96,9 +96,9 @@ class Bot
     client.on_exception do |exc, jab, where|
       @logger.fatal "CLIENT EXCEPTION on #{where}: #{exc}"
       sleep 10
-      #todo: reconnect
+	  reconnect(client)
     end
-    config.delete(:password)
+    #config.delete(:password)
     client.send(Jabber::Presence.new.set_type(:available))
 
     self.roster = Jabber::Roster::Helper.new(client)
@@ -110,6 +110,18 @@ class Bot
     self
   end
 
+  def reconnect(cli)
+    @logger.fatal "RECONNECTING CLIENT"
+	begin
+		cli.connect
+		cli.auth(config[:password])
+		cli.send(Jabber::Presence.new.set_type(:available))
+	rescue Exception => stack
+        @logger.fatal stack
+	end
+	
+  end
+  
   def update_bots_file
     file = File.open($0.gsub(".rb", "_bots.rb"), 'w')
     bots_created=@bots_created.dup
