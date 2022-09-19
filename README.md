@@ -1,3 +1,8 @@
+
+  
+*PAY ATTENTION THIS REPOSITORY AND THE ASSOCIATED GEM ARE ARCHIVED! NO LONGER WORK DONE.*  
+  
+  
 # HipChat Smart
 
 [![Gem Version](https://badge.fury.io/rb/hipchat_smart.svg)](https://rubygems.org/gems/hipchat_smart)
